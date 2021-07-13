@@ -5,23 +5,13 @@ import * as bookAPI from "../BooksAPI";
 function BooksList(props) {
   const handleBook = (book, shelf) => {
     bookAPI.update(book, shelf).then((newBooks) => {
-      props.handleShelfChange(newBooks);
+      props.handleShelfChange(book, shelf);
     });
   };
 
   const renderBooks = () => {
-    return props.books.map(({ title, id, authors, imageLinks, shelf }) => {
-      return (
-        <Book
-          bookTitle={title}
-          key={id}
-          authors={authors}
-          shelf={shelf}
-          image={imageLinks}
-          handleBook={handleBook}
-          id={id}
-        />
-      );
+    return props.books.map((book) => {
+      return <Book book={book} handleBook={handleBook} key={book.id} />;
     });
   };
 

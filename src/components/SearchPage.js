@@ -8,7 +8,7 @@ const SearchPage = (props) => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    bookAPI.search(term).then((res) => {
+    bookAPI.search(term.trim()).then((res) => {
       if (res && !res.error) {
         setBooks(res);
       } else {
@@ -28,19 +28,9 @@ const SearchPage = (props) => {
   };
 
   const renderItems = () => {
-    return books.map(({ title, id, authors, imageLinks, shelf }) => {
-      if (title && imageLinks) {
-        return (
-          <Book
-            bookTitle={title}
-            key={id}
-            authors={authors}
-            image={imageLinks}
-            shelf={shelf}
-            handleBook={handleBook}
-            id={id}
-          />
-        );
+    return books.map((book) => {
+      if (book.title && book.imageLinks) {
+        return <Book book={book} handleBook={handleBook} key={book.id} />;
       } else {
         return;
       }

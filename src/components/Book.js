@@ -1,9 +1,10 @@
 import React from "react";
 
 function Book(props) {
+  const { book } = props;
   const handleSelect = (e) => {
     const action = e.target.value;
-    props.handleBook({ id: props.id }, action);
+    props.handleBook(book, action);
   };
 
   return (
@@ -15,14 +16,11 @@ function Book(props) {
             style={{
               width: 128,
               height: 193,
-              backgroundImage: `url(${props.image.thumbnail})`,
+              backgroundImage: `url(${book.imageLinks.thumbnail})`,
             }}
           ></div>
           <div className="book-shelf-changer">
-            <select
-              defaultValue={props.shelf || "none"}
-              onChange={handleSelect}
-            >
+            <select defaultValue={book.shelf || "none"} onChange={handleSelect}>
               <option value="move" disabled>
                 Move to...
               </option>
@@ -33,9 +31,9 @@ function Book(props) {
             </select>
           </div>
         </div>
-        <div className="book-title">{props.booTitle}</div>
+        <div className="book-title">{book.booTitle}</div>
         <div className="book-authors">
-          {props.authors ? props.authors.join(", ") : "unknown"}
+          {book.authors ? book.authors.join(", ") : "unknown"}
         </div>
       </div>
     </li>

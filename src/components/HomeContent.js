@@ -15,29 +15,38 @@ class HomeContent extends React.Component {
   }
 
   componentDidMount() {
-    let read = [];
-    let wantToRead = [];
-    let currentlyReading = [];
     BooksAPI.getAll().then((books) => {
-      books.forEach((book) => {
-        switch (book.shelf) {
-          case "read":
-            read.push(book);
-            break;
-          case "currentlyReading":
-            currentlyReading.push(book);
-            break;
-          default:
-            wantToRead.push(book);
-            break;
-        }
-      });
-      this.setState({ books, read, wantToRead, currentlyReading });
+      this.categorizeBooks(books);
     });
   }
 
-  handleShelfChange = (newBooks) => {
-    window.location.reload();
+  categorizeBooks = (books) => {
+    let read = [];
+    let wantToRead = [];
+    let currentlyReading = [];
+    books.forEach((book) => {
+      switch (book.shelf) {
+        case "read":
+          read.push(book);
+          break;
+        case "currentlyReading":
+          currentlyReading.push(book);
+          break;
+        default:
+          wantToRead.push(book);
+          break;
+      }
+    });
+    this.setState({ books, read, wantToRead, currentlyReading });
+  };
+
+  handleShelfChange = (changedBook, shelf) => {
+    changedBook.shelf = shelf;
+    this.setState((prevState) => {
+      prevState.books
+        .filter((book) => book.id !== changedBook.id)
+        .concat(changedBook);
+    }, this.categorizeBooks(this.state.books));
   };
 
   render() {
