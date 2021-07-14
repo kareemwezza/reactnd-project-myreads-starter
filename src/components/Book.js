@@ -7,6 +7,14 @@ function Book(props) {
     props.handleBook(book, action);
   };
 
+  let currentShelf = "none";
+
+  props.booksList.forEach((myBook) => {
+    if (myBook.id === book.id) {
+      currentShelf = myBook.shelf;
+    }
+  });
+
   return (
     <li>
       <div className="book">
@@ -20,7 +28,10 @@ function Book(props) {
             }}
           ></div>
           <div className="book-shelf-changer">
-            <select defaultValue={book.shelf || "none"} onChange={handleSelect}>
+            <select
+              defaultValue={book.shelf || currentShelf}
+              onChange={handleSelect}
+            >
               <option value="move" disabled>
                 Move to...
               </option>

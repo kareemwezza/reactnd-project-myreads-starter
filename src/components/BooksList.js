@@ -11,7 +11,14 @@ function BooksList(props) {
 
   const renderBooks = () => {
     return props.books.map((book) => {
-      return <Book book={book} handleBook={handleBook} key={book.id} />;
+      return (
+        <Book
+          book={book}
+          handleBook={handleBook}
+          key={book.id}
+          booksList={props.books}
+        />
+      );
     });
   };
 

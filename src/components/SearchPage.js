@@ -6,6 +6,13 @@ import Book from "./Book";
 const SearchPage = (props) => {
   const [term, setTerm] = useState("");
   const [books, setBooks] = useState([]);
+  let [booksList, setBooksList] = useState([]);
+
+  useEffect(() => {
+    bookAPI.getAll().then((myBooks) => {
+      setBooksList(myBooks);
+    });
+  }, []);
 
   useEffect(() => {
     bookAPI.search(term.trim()).then((res) => {
@@ -30,7 +37,14 @@ const SearchPage = (props) => {
   const renderItems = () => {
     return books.map((book) => {
       if (book.title && book.imageLinks) {
-        return <Book book={book} handleBook={handleBook} key={book.id} />;
+        return (
+          <Book
+            book={book}
+            handleBook={handleBook}
+            key={book.id}
+            booksList={booksList}
+          />
+        );
       } else {
         return;
       }
