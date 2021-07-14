@@ -42,7 +42,7 @@ function Book(props) {
             </select>
           </div>
         </div>
-        <div className="book-title">{book.booTitle}</div>
+        <div className="book-title">{book.title}</div>
         <div className="book-authors">
           {book.authors ? book.authors.join(", ") : "unknown"}
         </div>
