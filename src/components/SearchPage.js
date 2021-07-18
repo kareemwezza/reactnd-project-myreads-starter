@@ -15,13 +15,25 @@ const SearchPage = (props) => {
   }, []);
 
   useEffect(() => {
-    bookAPI.search(term.trim()).then((res) => {
-      if (res && !res.error) {
-        setBooks(res);
-      } else {
-        setBooks([]);
+    const fetchBooks = async () => {
+      bookAPI.search(term.trim()).then((res) => {
+        if (res && !res.error) {
+          setBooks(res);
+        } else {
+          setBooks([]);
+        }
+      });
+    };
+
+    const timeOutId = setTimeout(() => {
+      if (term) {
+        fetchBooks();
       }
-    });
+    }, 500);
+
+    return () => {
+      clearTimeout(timeOutId);
+    };
   }, [term]);
 
   const handleChange = (e) => {
